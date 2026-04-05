@@ -1,5 +1,7 @@
 # Full Calendar Enhanced
 
+[![Built with Claude Code](https://img.shields.io/badge/Built%20with-Claude%20Code-8A2BE2?logo=anthropic&logoColor=white)](https://claude.ai/code)
+
 Расширенная версия плагина [obsidian-full-calendar](https://github.com/davish/obsidian-full-calendar) с четырьмя дополнительными функциями.
 
 ---
