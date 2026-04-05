@@ -1,0 +1,532 @@
+/* ==========================================================================
+   ENHANCED FULL CALENDAR — Custom styles
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Note Linker
+   -------------------------------------------------------------------------- */
+.fc-note-linker {
+  margin-top: 8px;
+  padding: 8px;
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+.fc-linked-notes-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 3px;
+  font-size: 9px;
+  line-height: 1;
+  background: rgba(0,0,0,0.35);
+  color: #fff;
+  border-radius: 3px;
+  padding: 1px 3px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.fc-linked-notes-popup {
+  position: fixed;
+  z-index: 9999;
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  font-size: 13px;
+  max-width: 280px;
+  pointer-events: all;
+}
+
+/* --------------------------------------------------------------------------
+   2. Enhanced modal sections (notification, tracking)
+   -------------------------------------------------------------------------- */
+.fc-enhanced-section {
+  margin-top: 8px;
+  padding: 8px;
+  background: var(--background-secondary);
+  border-radius: 6px;
+  border-left: 3px solid var(--interactive-accent);
+}
+
+.fc-enhanced-section p {
+  margin: 4px 0;
+}
+
+/* --------------------------------------------------------------------------
+   3. Tracking floating bar
+   -------------------------------------------------------------------------- */
+.fc-tracking-bar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  min-width: 280px;
+  max-width: 380px;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  animation: fc-slide-in 0.25s ease-out;
+}
+
+@keyframes fc-slide-in {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.fc-tracking-bar-inner {
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  border-left-width: 4px;
+}
+
+.fc-tracking-bar-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-normal);
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fc-tracking-bar-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.fc-tracking-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: filter 0.15s;
+}
+
+.fc-tracking-btn:hover {
+  filter: brightness(1.15);
+}
+
+.fc-tracking-confirm {
+  color: #fff;
+  flex: 1;
+}
+
+.fc-tracking-dismiss {
+  background: var(--interactive-normal);
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Tracking action buttons inside the event EDIT modal
+   -------------------------------------------------------------------------- */
+.fc-modal-tracking-btn {
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  transition: filter 0.15s, opacity 0.15s;
+}
+
+.fc-modal-tracking-btn:hover {
+  filter: brightness(1.1);
+}
+
+.fc-modal-tracking-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.fc-modal-tracking-start {
+  background: var(--color-green, #2ea043);
+}
+
+.fc-modal-tracking-end {
+  background: var(--color-red, #c03030);
+}
+
+.fc-tracking-skip {
+  background: transparent;
+  color: var(--text-faint);
+  border: 1px solid var(--background-modifier-border) !important;
+}
+
+/* Tracking overlays on calendar events */
+.fc-tracking-late-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  pointer-events: none;
+  border-radius: 3px 3px 0 0;
+  z-index: 1;
+}
+
+.fc-tracking-overtime {
+  position: absolute;
+  left: 0; right: 0;
+  pointer-events: none;
+  border-radius: 0 0 3px 3px;
+  z-index: 1;
+}
+
+.fc-tracking-label {
+  position: absolute;
+  font-size: 9px;
+  color: rgba(255,255,255,0.8);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* --------------------------------------------------------------------------
+   4. Dashboard
+   -------------------------------------------------------------------------- */
+.fc-dashboard {
+  padding: 16px 20px;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--background-primary);
+}
+
+.fc-dashboard-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding-bottom: 12px;
+}
+
+.fc-dashboard-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  flex: 1;
+}
+
+.fc-dashboard-tabs {
+  display: flex;
+  gap: 4px;
+}
+
+.fc-dashboard-tab {
+  padding: 5px 14px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 13px;
+  background: var(--interactive-normal);
+  color: var(--text-normal);
+  transition: background 0.15s, color 0.15s;
+}
+
+.fc-dashboard-tab:hover {
+  background: var(--interactive-hover);
+}
+
+.fc-dashboard-tab.active {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border-color: var(--interactive-accent);
+}
+
+.fc-dashboard-refresh,
+.fc-dashboard-export {
+  padding: 5px 12px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  background: var(--interactive-normal);
+  color: var(--text-muted);
+}
+
+.fc-dashboard-refresh:hover,
+.fc-dashboard-export:hover {
+  background: var(--interactive-hover);
+  color: var(--text-normal);
+}
+
+.fc-dashboard-section {
+  margin-bottom: 28px;
+}
+
+.fc-dashboard-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-normal);
+  margin: 0 0 12px 0;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.fc-dashboard-empty {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* Summary cards */
+.fc-dashboard-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.fc-dashboard-card {
+  flex: 1;
+  min-width: 120px;
+  padding: 14px 16px;
+  background: var(--background-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--background-modifier-border);
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.fc-dashboard-card.positive {
+  border-color: var(--color-green);
+}
+
+.fc-dashboard-card.warning {
+  border-color: #f0a500;
+}
+
+.fc-dashboard-card.danger {
+  border-color: var(--color-red);
+}
+
+.fc-card-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-normal);
+  line-height: 1.2;
+}
+
+.fc-card-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  line-height: 1.3;
+}
+
+/* Activity breakdown */
+.fc-activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fc-activity-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.fc-activity-label {
+  min-width: 150px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-normal);
+}
+
+.fc-activity-bar-wrap {
+  flex: 1;
+  height: 14px;
+  background: var(--background-modifier-border);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.fc-activity-bar {
+  height: 100%;
+  background: var(--interactive-accent);
+  border-radius: 7px;
+  min-width: 4px;
+  transition: width 0.4s ease;
+}
+
+.fc-activity-duration {
+  min-width: 60px;
+  text-align: right;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* Chart legend */
+.fc-chart-legend {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.fc-legend-box {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* Punctuality */
+.fc-punctuality-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fc-punctuality-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  background: var(--background-secondary);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.fc-punc-title {
+  flex: 1;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fc-punc-times {
+  display: flex;
+  gap: 8px;
+}
+
+.fc-punc-date {
+  color: var(--text-faint);
+  font-size: 11px;
+  min-width: 80px;
+  text-align: right;
+}
+
+.fc-late { color: var(--color-red); font-weight: 600; }
+.fc-slightly-late { color: #f0a500; }
+.fc-ontime { color: var(--color-green); }
+
+/* Records table */
+.fc-records-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.fc-records-table th {
+  text-align: left;
+  padding: 6px 10px;
+  background: var(--background-secondary);
+  border-bottom: 2px solid var(--background-modifier-border);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.fc-records-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--background-modifier-border);
+  vertical-align: middle;
+}
+
+.fc-records-table tr:hover td {
+  background: var(--background-secondary);
+}
+
+.fc-status-done { color: var(--color-green); }
+.fc-status-missed { color: var(--text-faint); }
+
+.fc-empty-note {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   Scrollable sections: search + filters + table
+   -------------------------------------------------------------------------- */
+.fc-section-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.fc-section-search {
+  flex: 1;
+  min-width: 140px;
+  padding: 4px 10px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-size: 12px;
+}
+
+.fc-section-filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.fc-section-filter-select {
+  padding: 4px 8px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.fc-scrollable-wrap {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  overflow-y: auto;
+}
+
+/* Activity histogram selector */
+.fc-activity-selector {
+  padding: 5px 10px;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-size: 13px;
+  min-width: 240px;
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   5. Settings section headers
+   -------------------------------------------------------------------------- */
+.fc-enhanced-settings-header {
+  border-top: 1px solid var(--background-modifier-border);
+  padding-top: 16px;
+  color: var(--interactive-accent);
+}
+
+.fc-settings-section-header {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-normal);
+  margin: 16px 0 4px 0;
+}

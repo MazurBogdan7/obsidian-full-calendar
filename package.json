@@ -1,0 +1,17 @@
+{
+  "name": "obsidian-full-calendar-enhanced",
+  "version": "1.0.0",
+  "description": "Enhanced full calendar plugin for Obsidian",
+  "main": "main.js",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "build:legacy": "node esbuild.config.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "esbuild": "^0.17.0",
+    "obsidian": "latest",
+    "typescript": "^5.0.0"
+  }
+}

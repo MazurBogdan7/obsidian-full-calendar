@@ -1,0 +1,56 @@
+{
+  "calendarSources": [
+    {
+      "type": "local",
+      "color": "#9e9e9e",
+      "directory": "/"
+    },
+    {
+      "type": "local",
+      "color": "#ff8f00",
+      "directory": "Дорога"
+    },
+    {
+      "type": "local",
+      "color": "#ff6b6b",
+      "directory": "Жизнь"
+    },
+    {
+      "type": "local",
+      "color": "#3f51b5",
+      "directory": "Наука"
+    },
+    {
+      "type": "local",
+      "color": "#00897b",
+      "directory": "Лаборатория умных идей"
+    },
+    {
+      "type": "local",
+      "color": "#7b1fa2",
+      "directory": "Универ"
+    },
+    {
+      "type": "local",
+      "color": "#43a047",
+      "directory": "ЗОЖ"
+    },
+    {
+      "type": "local",
+      "color": "#f9a825",
+      "directory": "Саморазвитие"
+    },
+    {
+      "type": "local",
+      "color": "#e91e63",
+      "directory": "Game Dev"
+    }
+  ],
+  "defaultCalendar": 0,
+  "firstDay": 1,
+  "initialView": {
+    "desktop": "timeGridWeek",
+    "mobile": "timeGrid3Days"
+  },
+  "timeFormat24h": true
+}
