@@ -64581,14 +64581,26 @@ var EventCache = class {
       if (!this.initialized || this.calendars.size === 0) {
         this.init();
       }
-      for (const calendar of this.calendars.values()) {
+      // PATCH: sort calendars by directory length descending so specific calendars
+      // claim their files first, preventing the root "/" calendar from duplicating them.
+      const sortedCalendars = [...this.calendars.values()].sort(
+        (a, b) => (b.directory?.length ?? 0) - (a.directory?.length ?? 0)
+      );
+      const seenFilePaths = new Set();
+      for (const calendar of sortedCalendars) {
         const results = yield calendar.getEvents();
-        results.forEach(([event, location]) => this.store.add({
-          calendar,
-          location,
-          id: event.id || this.generateId(),
-          event
-        }));
+        results.forEach(([event, location]) => {
+          const fp = location?.file?.path;
+          // Skip if a more specific calendar already claimed this file
+          if (fp && seenFilePaths.has(fp)) return;
+          if (fp) seenFilePaths.add(fp);
+          this.store.add({
+            calendar,
+            location,
+            id: event.id || this.generateId(),
+            event
+          });
+        });
       }
       this.initialized = true;
       this.revalidateRemoteCalendars();
@@ -64768,9 +64780,15 @@ var EventCache = class {
     return __async(this, null, function* () {
       try {
       console.debug("fileUpdated() called for file", file.path);
-      const calendars = [...this.calendars.values()].flatMap((c3) => c3 instanceof EditableCalendar && c3.containsPath(file.path) ? c3 : []);
+      let calendars = [...this.calendars.values()].flatMap((c3) => c3 instanceof EditableCalendar && c3.containsPath(file.path) ? c3 : []);
       if (calendars.length === 0) {
         return;
+      }
+      // PATCH: if multiple calendars claim this file, keep only the most specific
+      // (longest directory path) to prevent duplicate rendering.
+      if (calendars.length > 1) {
+        const maxDirLen = Math.max(...calendars.map((c3) => c3.directory?.length ?? 0));
+        calendars = calendars.filter((c3) => (c3.directory?.length ?? 0) === maxDirLen);
       }
       const idsToRemove = [];
       const eventsToAdd = [];

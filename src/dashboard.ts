@@ -301,7 +301,60 @@ export class DashboardView extends ItemView {
           const title = fm.title || file.basename;
           allTitles.push({ title, recurring: isRecurring });
 
-          // For range filtering
+          // Expand recurring events (daysOfWeek) into individual occurrences in the date range
+          if (isRecurring && Array.isArray(fm.daysOfWeek) && fm.daysOfWeek.length > 0) {
+            const DAYS_STR = "UMTWRFS";
+            const dowSet = new Set(
+              (fm.daysOfWeek as string[]).map(c => DAYS_STR.indexOf(String(c))).filter(n => n >= 0)
+            );
+            const startRecurDate = fm.startRecur ? new Date(String(fm.startRecur)) : new Date(0);
+            const endRecurDate   = fm.endRecur   ? new Date(String(fm.endRecur))   : new Date(32503680000000);
+            const recStart = new Date(Math.max(dateRange.start.getTime(), startRecurDate.getTime()));
+            const recEnd   = new Date(Math.min(dateRange.end.getTime(),   endRecurDate.getTime()));
+
+            const evStartStr = fm.startTime ? String(fm.startTime).trim().padStart(5, "0") : "00:00";
+            const evEndStr   = fm.endTime   ? String(fm.endTime).trim().padStart(5, "0")   : null;
+
+            const cur = new Date(recStart);
+            cur.setHours(0, 0, 0, 0);
+            while (cur <= recEnd) {
+              if (dowSet.has(cur.getDay())) {
+                const dayStr = toDateStr(cur);
+                const occStart = new Date(`${dayStr}T${evStartStr}`);
+                let occEnd: Date;
+                if (evEndStr) {
+                  occEnd = new Date(`${dayStr}T${evEndStr}`);
+                  const endDayOffset = fm.endDayOffset ?? 0;
+                  if (endDayOffset !== 0) {
+                    occEnd = new Date(occEnd.getTime() + endDayOffset * 24 * 60 * 60 * 1000);
+                  } else if (occEnd <= occStart) {
+                    occEnd = new Date(occEnd.getTime() + 24 * 60 * 60 * 1000);
+                  }
+                } else {
+                  occEnd = new Date(occStart.getTime() + 60 * 60 * 1000);
+                }
+                const occId = `${file.path}:occ:${dayStr}`;
+                const alreadyIn = records.find(r => r.id === occId);
+                if (!alreadyIn) {
+                  records.push({
+                    id: occId,
+                    title,
+                    calendarId: source.directory,
+                    plannedStart: occStart.toISOString(),
+                    plannedEnd:   occEnd.toISOString(),
+                    actualStart:  undefined,
+                    actualEnd:    undefined,
+                    tracked:      false,
+                    linkedNotes:  fm.linkedNotes || [],
+                  });
+                }
+              }
+              cur.setDate(cur.getDate() + 1);
+            }
+            continue; // recurring event expanded — skip single-record path below
+          }
+
+          // For range filtering (single events)
           const dateStr = parseDateFromFm(fm);
           if (!dateStr) continue;
 

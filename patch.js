@@ -391,7 +391,7 @@ var init_dashboard = __esm({
         return { records: filtered, allEventTitles: eligibleTitles, dateRange };
       }
       async scanEventFiles(records, dateRange, allTitles) {
-        var _a;
+        var _a, _b;
         const sources = ((_a = this.plugin.settings) == null ? void 0 : _a.calendarSources) || [];
         for (const source of sources) {
           if (source.type !== "local" || !source.directory)
@@ -417,6 +417,55 @@ var init_dashboard = __esm({
                 continue;
               const title = fm.title || file.basename;
               allTitles.push({ title, recurring: isRecurring });
+              if (isRecurring && Array.isArray(fm.daysOfWeek) && fm.daysOfWeek.length > 0) {
+                const DAYS_STR = "UMTWRFS";
+                const dowSet = new Set(
+                  fm.daysOfWeek.map((c) => DAYS_STR.indexOf(String(c))).filter((n) => n >= 0)
+                );
+                const startRecurDate = fm.startRecur ? new Date(String(fm.startRecur)) : /* @__PURE__ */ new Date(0);
+                const endRecurDate = fm.endRecur ? new Date(String(fm.endRecur)) : /* @__PURE__ */ new Date(3250368e7);
+                const recStart = new Date(Math.max(dateRange.start.getTime(), startRecurDate.getTime()));
+                const recEnd = new Date(Math.min(dateRange.end.getTime(), endRecurDate.getTime()));
+                const evStartStr = fm.startTime ? String(fm.startTime).trim().padStart(5, "0") : "00:00";
+                const evEndStr = fm.endTime ? String(fm.endTime).trim().padStart(5, "0") : null;
+                const cur = new Date(recStart);
+                cur.setHours(0, 0, 0, 0);
+                while (cur <= recEnd) {
+                  if (dowSet.has(cur.getDay())) {
+                    const dayStr = toDateStr(cur);
+                    const occStart = /* @__PURE__ */ new Date(`${dayStr}T${evStartStr}`);
+                    let occEnd;
+                    if (evEndStr) {
+                      occEnd = /* @__PURE__ */ new Date(`${dayStr}T${evEndStr}`);
+                      const endDayOffset = (_b = fm.endDayOffset) != null ? _b : 0;
+                      if (endDayOffset !== 0) {
+                        occEnd = new Date(occEnd.getTime() + endDayOffset * 24 * 60 * 60 * 1e3);
+                      } else if (occEnd <= occStart) {
+                        occEnd = new Date(occEnd.getTime() + 24 * 60 * 60 * 1e3);
+                      }
+                    } else {
+                      occEnd = new Date(occStart.getTime() + 60 * 60 * 1e3);
+                    }
+                    const occId = `${file.path}:occ:${dayStr}`;
+                    const alreadyIn = records.find((r) => r.id === occId);
+                    if (!alreadyIn) {
+                      records.push({
+                        id: occId,
+                        title,
+                        calendarId: source.directory,
+                        plannedStart: occStart.toISOString(),
+                        plannedEnd: occEnd.toISOString(),
+                        actualStart: void 0,
+                        actualEnd: void 0,
+                        tracked: false,
+                        linkedNotes: fm.linkedNotes || []
+                      });
+                    }
+                  }
+                  cur.setDate(cur.getDate() + 1);
+                }
+                continue;
+              }
               const dateStr = parseDateFromFm(fm);
               if (!dateStr)
                 continue;
